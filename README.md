@@ -1,19 +1,21 @@
-# The Hangman Game
+# Guess The State Game
 
-A word-guessing game in which you guess a word letter by letter
-against a word the computer has picked randomly from a words file
-every time you enter a wrong letter you will be warned
-every time you enter a correct letter you will be greeted
-let's play and explore what would happen if you enter more than one letter a time!
+A word-guessing game in which you guess the name of an American state  
+
+every time you enter a wrong letter you will be warned  
+
+every time you enter a correct letter you will be greeted  
+
+let's play and explore what would happen if you enter more than one letter a time!   
+
 
 ## Getting started
 
-Clone the 3 files and run `chmod 755 hangman.sh` to give the bash file the permission to run and then enjoy the game!
+Clone the files and run `states.py` and enjoy playing! 
 
 ## Prerequisites
 
-you should have at least python 3.4 or higher installed
-you should give the `hangman.sh` a permission to run with running `chmod 755 hangman.sh`
+you should have at least python 3.4 or higher installed  
 
 ## Authors
 
