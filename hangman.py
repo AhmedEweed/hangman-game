@@ -1,6 +1,6 @@
 import random, string
 
-WORDLIST_FILENAME = "UnitedStates.txt"
+WORDLIST_FILENAME = "words.txt"
 
 def loadWords():
     """
