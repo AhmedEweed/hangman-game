@@ -155,6 +155,5 @@ def stateGame():
           print("I will take this as a No! Good bye!")
           break
 
-
 wordlist = loadWords()
 stateGame()
