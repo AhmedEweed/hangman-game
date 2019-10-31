@@ -2,6 +2,44 @@ import random, string
 
 WORDLIST_FILENAME = "words.txt"
 
+def core_logic(wrongGussed, secretState, guessedLetters):
+  while len(wrongGussed) < 8 and isWordGuessed(secretState, guessedLetters) == False:
+    guess = str(input("Enter a guess letter: ")).lower()
+    if len(guess) == 1:
+      if guess in guessedLetters or guess in wrongGussed:
+        print("You guessed that letter before! Try another one.")
+        print("Now the word looks like", getGuessedWord(secretWord=secretState, lettersGuessed=guessedLetters))
+
+      elif guess in list(secretState):
+        guessedLetters.append(guess)
+        if isWordGuessed(secretState, guessedLetters):
+          break
+        else:
+          print("You got that right!")
+          print("Now the word looks like", getGuessedWord(secretWord=secretState, lettersGuessed=guessedLetters))
+          print("You still have letters", getAvailableLetters((guessedLetters+wrongGussed)), "to guess from!")
+      else:
+        wrongGussed.append(guess)
+        if len(wrongGussed) == 8:
+          break
+              
+        elif len(wrongGussed) == 7:
+          print("Opps! you got that wrong.")
+          print("Remember! you still have", str(8-len(wrongGussed)), "guess left!")
+          print("You still have letters", getAvailableLetters((guessedLetters+wrongGussed)), "to guess from!")
+          print("Now the word looks like", getGuessedWord(secretWord=secretState, lettersGuessed=guessedLetters))
+
+              
+        else:
+          print("Opps! you got that wrong.")
+          print("Remember! you still have", str(8-len(wrongGussed)), "guesses left!")
+          print("You still have letters", getAvailableLetters((guessedLetters+wrongGussed)), "to guess from!")
+          print("Now the word looks like", getGuessedWord(secretWord=secretState, lettersGuessed=guessedLetters))
+
+
+    else:
+      print("You should enter 1 letter per guess!")
+
 def loadWords():
     """
     Returns a list of valid words. Words are strings of lowercase letters.
@@ -19,6 +57,11 @@ def loadWords():
     #print("  ", len(wordlist), "words loaded.")
     return wordlist
 
+def gameStart(secretWord):
+        print("Hello to Guess state name Game!")
+        print("Our secret state name is", len(secretWord), "letters long!")
+        print("You should enter a letter per guess.")
+
 def chooseWord(wordlist):
     """
     wordlist (list): list of words (strings)
@@ -26,10 +69,6 @@ def chooseWord(wordlist):
     Returns a word from wordlist at random
     """
     return random.choice(wordlist)
-
-# Load the list of words into the variable wordlist
-# so that it can be accessed from anywhere in the program
-wordlist = loadWords()
 
 def isWordGuessed(secretWord, lettersGuessed):
     '''
@@ -89,45 +128,10 @@ def hangman():
       secretWord = chooseWord(wordlist).lower()
       guessedLetters = []
       wrongGussed = []
-      print("Hello to The Hangman Game!")
-      print("Our secret word is", len(secretWord), "letters long!")
-      print("You should enter a letter per guess.")
-      while len(wrongGussed) < 8 and isWordGuessed(secretWord, lettersGuessed=guessedLetters) == False:
-        guess = str(input("Enter a guess letter: ")).lower()
-        if len(guess) == 1:
-          if guess in guessedLetters or guess in wrongGussed:
-              print("You guessed that letter before! Try another one.")
-              print("Now the word looks like", getGuessedWord(secretWord=secretWord, lettersGuessed=guessedLetters))
-
-          elif guess in list(secretWord):
-            guessedLetters.append(guess)
-            if isWordGuessed(secretWord, guessedLetters):
-              break
-            else:
-              print("You got that right!")
-              print("Now the word looks like", getGuessedWord(secretWord=secretWord, lettersGuessed=guessedLetters))
-              print("You still have letters", getAvailableLetters((guessedLetters+wrongGussed)), "to guess from!")
-          else:
-            wrongGussed.append(guess)
-            if len(wrongGussed) == 8:
-              break
-              
-            elif len(wrongGussed) == 7:
-              print("Opps! you got that wrong.")
-              print("Remember! you still have", str(8-len(wrongGussed)), "guess left!")
-              print("You still have letters", getAvailableLetters((guessedLetters+wrongGussed)), "to guess from!")
-              print("Now the word looks like", getGuessedWord(secretWord=secretWord, lettersGuessed=guessedLetters))
-
-              
-            else:
-              print("Opps! you got that wrong.")
-              print("Remember! you still have", str(8-len(wrongGussed)), "guesses left!")
-              print("You still have letters", getAvailableLetters((guessedLetters+wrongGussed)), "to guess from!")
-              print("Now the word looks like", getGuessedWord(secretWord=secretWord, lettersGuessed=guessedLetters))
-
-
-        else:
-          print("You should enter 1 letter per guess!")      
+      gameStart(secretWord)
+      core_logic(wrongGussed, secretWord, guessedLetters)
+      
+          
       if isWordGuessed(secretWord, guessedLetters):
         print("Whoa! you got the whole word right. Our secret word was", str(secretWord).capitalize())
         res = str(input("Would you like to play again? [y]/n: ").lower())
@@ -153,5 +157,5 @@ def hangman():
           print("I will take this as a No! Good bye!")
           break
 
-
+wordlist = loadWords()
 hangman()
